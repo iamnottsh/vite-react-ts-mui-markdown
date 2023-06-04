@@ -13,16 +13,6 @@ export default function Markdown({source, clobberPrefix}: { source: string, clob
                 [remarkGfm, {
                     singleTilde: false,
                 }],
-                // () => tree => {
-                //     const visitor = (node: any) => {
-                //         if (['footnoteReference', 'footnoteDefinition'].includes(node.type)) {
-                //             node.identifier = Base64.encodeURI(node.identifier)
-                //         }
-                //         node.children?.forEach(visitor)
-                //     }
-                //     visitor(tree)
-                //     return tree
-                // },
                 [remarkToc, {
                     heading: '目录'
                 }],
