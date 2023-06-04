@@ -47,7 +47,7 @@ document.addEventListener(
     false
 )
 
-export default function Markdown({source}: { source: string }) {
+export default function Markdown({source, clobberPrefix}: { source: string, clobberPrefix?: string }) {
     useEffect(hashchange, [])
     return (
         <ReactMarkdown
@@ -57,7 +57,7 @@ export default function Markdown({source}: { source: string }) {
                 }],
             ]}
             remarkRehypeOptions={{
-                clobberPrefix: 'clobber-',
+                clobberPrefix: clobberPrefix,
                 footnoteLabel: '脚注',
                 footnoteBackLabel: '返回正文',
             }}
