@@ -12,14 +12,20 @@ import {
     TextField,
     Toolbar,
     Typography,
+    useScrollTrigger,
     useTheme
 } from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Markdown from "./Markdown";
 import useSWR from "swr";
 
 export default function Site() {
+    const trigger = useScrollTrigger({threshold: 0})
+    const handleTop = () => {
+        document.getElementById('back-to-top-anchor')?.scrollIntoView()
+    }
     const [open, setOpen] = useState(false)
     const handleOpen = () => {
         setOpen(true)
@@ -35,7 +41,7 @@ export default function Site() {
     const {data} = useSWR('/index.md', url => fetch(url).then(value => value.text()))
     return (
         <>
-            <Container component="main" sx={{py: 3}}>
+            <Container component="main" sx={{py: 3}} id="back-to-top-anchor">
                 <link rel="stylesheet" href={dark ? hlCSSDark : hlCSSLight}/>
                 <link rel="stylesheet" href={dark ? thCSSDark : thCSSLight}/>
                 <Paper sx={{padding: 2}} className="markdown-body">
@@ -48,6 +54,9 @@ export default function Site() {
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         Markdown
                     </Typography>
+                    {trigger && <IconButton size="large" color="inherit" aria-label="返回顶部" onClick={handleTop}>
+                        <KeyboardArrowUpIcon/>
+                    </IconButton>}
                     <IconButton size="large" edge="end" color="inherit" aria-label="打开设置" onClick={handleOpen}>
                         <SettingsIcon/>
                     </IconButton>
