@@ -14,7 +14,7 @@ import {
     Typography,
     useTheme
 } from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Markdown from "./Markdown";
 import useSWR from "swr";
@@ -48,7 +48,7 @@ export default function Site() {
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         Markdown
                     </Typography>
-                    <IconButton size="large" edge="end" color="inherit" onClick={handleOpen}>
+                    <IconButton size="large" edge="end" color="inherit" aria-label="打开设置" onClick={handleOpen}>
                         <SettingsIcon/>
                     </IconButton>
                 </Toolbar>
