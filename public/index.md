@@ -3,8 +3,10 @@
 自动链接：https://markdown.com.cn
 [手动链接](https://markdown.com.cn)
 
-~无删除线~
+~无删除线~[^1]
 ~~有删除线~~
+
+[^1]: 注释
 
 ```javascript
 const a = '这是一段js代码'

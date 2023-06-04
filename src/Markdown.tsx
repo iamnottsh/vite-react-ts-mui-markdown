@@ -22,11 +22,12 @@ export default function Markdown({source}: { source: string }) {
                             ...(defaultSchema.attributes?.code ?? []),
                             ['className', /^language-/]
                         ]
-                    }
+                    },
+                    clobber: defaultSchema.clobber?.filter(value => value !== 'id'),
                 }],
                 [rehypeHighlight, {
                     ignoreMissing: true
-                }]
+                }],
             ]}
         >
             {source}
