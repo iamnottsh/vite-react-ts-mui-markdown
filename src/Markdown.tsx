@@ -9,7 +9,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 
-export default function Markdown({source, toc, prefix}: { source: string, toc: string, prefix?: string }) {
+export default function Markdown({source, prefix = ''}: { source: string, prefix?: string }) {
     return (
         <ReactMarkdown
             remarkPlugins={[
@@ -17,7 +17,7 @@ export default function Markdown({source, toc, prefix}: { source: string, toc: s
                     singleTilde: false,
                 }],
                 [remarkToc, {
-                    heading: toc,
+                    heading: '目录',
                     prefix,
                 }],
                 remarkMath,
