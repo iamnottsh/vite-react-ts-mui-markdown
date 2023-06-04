@@ -3,10 +3,10 @@
 自动链接：https://markdown.com.cn
 [手动链接](https://markdown.com.cn)
 
-~无删除线~[^1]
+~无删除线~[^原因]
 ~~有删除线~~
 
-[^1]: 这是由于给remark-gfm关掉了singleTilde
+[^原因]: 这是由于给remark-gfm关掉了singleTilde
 
 ```javascript
 const a = '这是一段js代码'

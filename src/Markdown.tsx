@@ -5,28 +5,21 @@ import rehypeSanitize, {defaultSchema} from "rehype-sanitize";
 import rehypeHighlight from "rehype-highlight";
 import {useEffect} from "react";
 
-function hashchange() {
-    /** @type {string|undefined} */
-    let hash
-
+function onHashChanged() {
+    let hash: string
     try {
         hash = decodeURIComponent(location.hash.slice(1)).toLowerCase()
     } catch {
         return
     }
-
-    const name = 'user-content-' + hash
-    const target =
-        document.getElementById(name) || document.getElementsByName(name)[0]
-
-    if (target) {
-        setTimeout(() => {
-            target.scrollIntoView()
-        }, 0)
-    }
+    const name = `user-content-${encodeURIComponent(hash)}`
+    const target = document.getElementById(name) || document.querySelector(`[name="${name}"]`)
+    if (target) requestAnimationFrame(() => {
+        target.scrollIntoView()
+    })
 }
 
-window.addEventListener('hashchange', hashchange)
+window.addEventListener('hashchange', onHashChanged)
 
 document.addEventListener(
     'click',
@@ -36,19 +29,15 @@ document.addEventListener(
             event.target instanceof HTMLAnchorElement &&
             event.target.href === location.href &&
             location.hash.length > 1
-        ) {
-            setTimeout(() => {
-                if (!event.defaultPrevented) {
-                    hashchange()
-                }
-            })
-        }
+        ) requestAnimationFrame(() => {
+            if (!event.defaultPrevented) onHashChanged()
+        })
     },
     false
 )
 
 export default function Markdown({source, clobberPrefix}: { source: string, clobberPrefix?: string }) {
-    useEffect(hashchange, [])
+    useEffect(onHashChanged, [])
     return (
         <ReactMarkdown
             remarkPlugins={[
