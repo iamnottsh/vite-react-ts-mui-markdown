@@ -20,6 +20,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Markdown from "./Markdown";
 import useSWR from "swr";
+import useForage from "./useForage";
 
 export default function Site() {
     const trigger = useScrollTrigger({
@@ -36,19 +37,20 @@ export default function Site() {
     const handleClose = () => {
         setOpen(false)
     }
-    const [wrapperClass, setWrapperClass] = useState('markdown-body')
+    const [wrapperPadding, setWrapperPadding] = useForage('wrapper-padding', '15px')
+    const [wrapperClass, setWrapperClass] = useForage('wrapper-class', 'markdown-body')
     const dark = useTheme().palette.mode === 'dark'
-    const [thCSSLight, setThCSSLight] = useState('https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css')
-    const [thCSSDark, setThCSSDark] = useState('https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css')
-    const [hlCSSLight, setHlCSSLight] = useState('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css')
-    const [hlCSSDark, setHlCSSDark] = useState('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css')
+    const [thCSSLight, setThCSSLight] = useForage('th-CSS-light', 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css')
+    const [thCSSDark, setThCSSDark] = useForage('th-CSS-dark', 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css')
+    const [hlCSSLight, setHlCSSLight] = useForage('hl-CSS-light', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css')
+    const [hlCSSDark, setHlCSSDark] = useForage('hl-CSS-dark', 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css')
     const {data} = useSWR('/index.md', url => fetch(url).then(value => value.text()))
     return (
         <>
             <Container component="main" sx={{py: 3}} id="back-to-top-anchor">
                 <link rel="stylesheet" href={dark ? hlCSSDark : hlCSSLight}/>
                 <link rel="stylesheet" href={dark ? thCSSDark : thCSSLight}/>
-                <Paper sx={{padding: 2}} className={wrapperClass}>
+                <Paper sx={{padding: wrapperPadding}} className={wrapperClass}>
                     {data === undefined ? <LinearProgress/> : <Markdown source={data}/>}
                 </Paper>
             </Container>
@@ -74,8 +76,17 @@ export default function Site() {
                     <TextField
                         fullWidth
                         margin="normal"
+                        label="包装器内边距"
+                        defaultValue={wrapperPadding}
+                        onChange={event => {
+                            setWrapperPadding(event.target.value)
+                        }}
+                    />
+                    <TextField
+                        fullWidth
+                        margin="normal"
                         label="包装器的类名"
-                        value={wrapperClass}
+                        defaultValue={wrapperClass}
                         onChange={event => {
                             setWrapperClass(event.target.value)
                         }}
@@ -84,7 +95,7 @@ export default function Site() {
                         fullWidth
                         margin="normal"
                         label="浅色主题CSS"
-                        value={thCSSLight}
+                        defaultValue={thCSSLight}
                         onChange={event => {
                             setThCSSLight(event.target.value)
                         }}
@@ -93,7 +104,7 @@ export default function Site() {
                         fullWidth
                         margin="normal"
                         label="深色主题CSS"
-                        value={thCSSDark}
+                        defaultValue={thCSSDark}
                         onChange={event => {
                             setThCSSDark(event.target.value)
                         }}
@@ -102,7 +113,7 @@ export default function Site() {
                         fullWidth
                         margin="normal"
                         label="浅色高亮CSS"
-                        value={hlCSSLight}
+                        defaultValue={hlCSSLight}
                         onChange={event => {
                             setHlCSSLight(event.target.value)
                         }}
@@ -111,7 +122,7 @@ export default function Site() {
                         fullWidth
                         margin="normal"
                         label="深色高亮CSS"
-                        value={hlCSSDark}
+                        defaultValue={hlCSSDark}
                         onChange={event => {
                             setHlCSSDark(event.target.value)
                         }}
