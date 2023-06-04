@@ -5,7 +5,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, Fade,
     IconButton,
     LinearProgress,
     Paper,
@@ -22,7 +22,10 @@ import Markdown from "./Markdown";
 import useSWR from "swr";
 
 export default function Site() {
-    const trigger = useScrollTrigger({threshold: 0})
+    const trigger = useScrollTrigger({
+        disableHysteresis: true,
+        threshold: 0,
+    })
     const handleTop = () => {
         document.getElementById('back-to-top-anchor')?.scrollIntoView()
     }
@@ -54,9 +57,11 @@ export default function Site() {
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         Markdown
                     </Typography>
-                    {trigger && <IconButton size="large" color="inherit" aria-label="返回顶部" onClick={handleTop}>
-                        <KeyboardArrowUpIcon/>
-                    </IconButton>}
+                    <Fade in={trigger}>
+                        <IconButton size="large" color="inherit" aria-label="返回顶部" onClick={handleTop}>
+                            <KeyboardArrowUpIcon/>
+                        </IconButton>
+                    </Fade>
                     <IconButton size="large" edge="end" color="inherit" aria-label="打开设置" onClick={handleOpen}>
                         <SettingsIcon/>
                     </IconButton>
