@@ -4,6 +4,9 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize, {defaultSchema} from "rehype-sanitize";
 import rehypeHighlight from "rehype-highlight";
 import {useEffect} from "react";
+import remarkToc from "remark-toc";
+import rehypeSlug from "rehype-slug";
+import {Base64} from "js-base64";
 
 function onHashChanged() {
     let hash: string
@@ -12,7 +15,7 @@ function onHashChanged() {
     } catch {
         return
     }
-    const name = `user-content-${encodeURIComponent(hash)}`
+    const name = `user-content-${hash}`
     const target = document.getElementById(name) || document.querySelector(`[name="${name}"]`)
     if (target) requestAnimationFrame(() => {
         target.scrollIntoView()
@@ -44,6 +47,19 @@ export default function Markdown({source, clobberPrefix}: { source: string, clob
                 [remarkGfm, {
                     singleTilde: false,
                 }],
+                () => tree => {
+                    const visitor = (node: any) => {
+                        if (['footnoteReference', 'footnoteDefinition'].includes(node.type)) {
+                            node.identifier = Base64.encodeURI(node.identifier)
+                        }
+                        node.children?.forEach(visitor)
+                    }
+                    visitor(tree)
+                    return tree
+                },
+                [remarkToc, {
+                    heading: '目录'
+                }],
             ]}
             remarkRehypeOptions={{
                 clobberPrefix: clobberPrefix,
@@ -52,6 +68,7 @@ export default function Markdown({source, clobberPrefix}: { source: string, clob
             }}
             rehypePlugins={[
                 rehypeRaw,
+                rehypeSlug,
                 [rehypeSanitize, {
                     ...defaultSchema,
                     attributes: {

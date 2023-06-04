@@ -1,12 +1,16 @@
-# 你好，世界！
+# 你好
+
+## 目录
+
+## 世界
 
 自动链接：https://markdown.com.cn
 [手动链接](https://markdown.com.cn)
 
-~无删除线~[^原因]
+~无删除线~[^为什么]
 ~~有删除线~~
 
-[^原因]: 这是由于给remark-gfm关掉了singleTilde
+[^为什么]: 这是由于给remark-gfm关掉了singleTilde
 
 ```javascript
 const a = '这是一段js代码'
@@ -16,6 +20,8 @@ console.log(a)
 <blockquote>
 
 html blockquote
+
+> <ruby>html ruby<rp>（</rp><rt>嵌套引用</rt><rp>）</rp><ruby/>
 
 </blockquote>
 
