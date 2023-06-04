@@ -5,30 +5,28 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, Fade,
+    DialogTitle,
     IconButton,
     LinearProgress,
     Paper,
     TextField,
     Toolbar,
     Typography,
-    useScrollTrigger,
     useTheme
 } from "@mui/material";
 import React, {useState} from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import TOCIcon from '@mui/icons-material/TOC';
 import Markdown from "./Markdown";
 import useSWR from "swr";
 import useForage from "./useForage";
 
+const prefix = ''
+const toc = '目录'
+
 export default function Site() {
-    const trigger = useScrollTrigger({
-        disableHysteresis: true,
-        threshold: 0,
-    })
-    const handleTop = () => {
-        document.getElementById('back-to-top-anchor')?.scrollIntoView()
+    const handleTOC = () => {
+        location.hash = `${prefix}${toc}`
     }
     const [open, setOpen] = useState(false)
     const handleOpen = () => {
@@ -51,7 +49,7 @@ export default function Site() {
                 <link rel="stylesheet" href={dark ? hlCSSDark : hlCSSLight}/>
                 <link rel="stylesheet" href={dark ? thCSSDark : thCSSLight}/>
                 <Paper sx={{padding: wrapperPadding}} className={wrapperClass}>
-                    {data === undefined ? <LinearProgress/> : <Markdown source={data}/>}
+                    {data === undefined ? <LinearProgress/> : <Markdown source={data} toc={toc} prefix={prefix}/>}
                 </Paper>
             </Container>
             <Toolbar/>
@@ -60,11 +58,9 @@ export default function Site() {
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         Markdown
                     </Typography>
-                    <Fade in={trigger}>
-                        <IconButton size="large" color="inherit" aria-label="返回顶部" onClick={handleTop}>
-                            <KeyboardArrowUpIcon/>
-                        </IconButton>
-                    </Fade>
+                    <IconButton size="large" color="inherit" aria-label="翻到目录" onClick={handleTOC}>
+                        <TOCIcon/>
+                    </IconButton>
                     <IconButton size="large" edge="end" color="inherit" aria-label="打开设置" onClick={handleOpen}>
                         <SettingsIcon/>
                     </IconButton>
