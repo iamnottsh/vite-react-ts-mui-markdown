@@ -7,6 +7,7 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 export default function Markdown({source, clobberPrefix}: { source: string, clobberPrefix?: string }) {
+    const genuinePrefix = clobberPrefix ?? ''
     return (
         <ReactMarkdown
             remarkPlugins={[
@@ -14,11 +15,12 @@ export default function Markdown({source, clobberPrefix}: { source: string, clob
                     singleTilde: false,
                 }],
                 [remarkToc, {
-                    heading: '目录'
+                    heading: '目录',
+                    prefix: genuinePrefix,
                 }],
             ]}
             remarkRehypeOptions={{
-                clobberPrefix: clobberPrefix,
+                clobberPrefix: genuinePrefix,
                 footnoteLabel: '脚注',
                 footnoteBackLabel: '返回正文',
             }}
