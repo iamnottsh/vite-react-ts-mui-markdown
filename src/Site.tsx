@@ -1,14 +1,17 @@
 import {
+    AppBar,
     Button,
     Container,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, Fab,
+    DialogTitle,
     IconButton,
     LinearProgress,
     Paper,
     TextField,
+    Toolbar,
+    Typography,
     useTheme
 } from "@mui/material";
 import React, {useState} from "react";
@@ -32,13 +35,6 @@ export default function Site() {
     const {data} = useSWR('/index.md', url => fetch(url).then(value => value.text()))
     return (
         <>
-            <Fab color="primary" onClick={handleOpen} sx={{
-                position: 'fixed',
-                bottom: 16,
-                right: 16,
-            }}>
-                <SettingsIcon/>
-            </Fab>
             <Container component="main" sx={{py: 3}}>
                 <link rel="stylesheet" href={dark ? hlCSSDark : hlCSSLight}/>
                 <link rel="stylesheet" href={dark ? thCSSDark : thCSSLight}/>
@@ -46,6 +42,17 @@ export default function Site() {
                     {data === undefined ? <LinearProgress/> : <Markdown source={data}/>}
                 </Paper>
             </Container>
+            <Toolbar/>
+            <AppBar position="fixed" sx={{top: 'auto', bottom: 0}}>
+                <Toolbar>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                        Markdown
+                    </Typography>
+                    <IconButton size="large" edge="end" color="inherit" onClick={handleOpen}>
+                        <SettingsIcon/>
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>设置</DialogTitle>
                 <DialogContent>
