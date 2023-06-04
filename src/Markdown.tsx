@@ -9,9 +9,12 @@ export default function Markdown({source}: { source: string }) {
         <ReactMarkdown
             remarkPlugins={[
                 [remarkGfm, {
-                    singleTilde: false
+                    singleTilde: false,
                 }],
             ]}
+            remarkRehypeOptions={{
+                footnoteLabel: '脚注',
+            }}
             rehypePlugins={[
                 rehypeRaw,
                 [rehypeSanitize, {

@@ -6,7 +6,7 @@
 ~无删除线~[^1]
 ~~有删除线~~
 
-[^1]: 注释
+[^1]: 这是由于给remark-gfm关掉了singleTilde
 
 ```javascript
 const a = '这是一段js代码'
