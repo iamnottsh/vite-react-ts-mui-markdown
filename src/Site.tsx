@@ -36,6 +36,7 @@ export default function Site() {
     const handleClose = () => {
         setOpen(false)
     }
+    const [wrapperClass, setWrapperClass] = useState('markdown-body')
     const dark = useTheme().palette.mode === 'dark'
     const [thCSSLight, setThCSSLight] = useState('https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css')
     const [thCSSDark, setThCSSDark] = useState('https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css')
@@ -47,7 +48,7 @@ export default function Site() {
             <Container component="main" sx={{py: 3}} id="back-to-top-anchor">
                 <link rel="stylesheet" href={dark ? hlCSSDark : hlCSSLight}/>
                 <link rel="stylesheet" href={dark ? thCSSDark : thCSSLight}/>
-                <Paper sx={{padding: 2}} className="markdown-body">
+                <Paper sx={{padding: 2}} className={wrapperClass}>
                     {data === undefined ? <LinearProgress/> : <Markdown source={data}/>}
                 </Paper>
             </Container>
@@ -70,6 +71,15 @@ export default function Site() {
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>设置</DialogTitle>
                 <DialogContent>
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label="包装器的类名"
+                        value={wrapperClass}
+                        onChange={event => {
+                            setWrapperClass(event.target.value)
+                        }}
+                    />
                     <TextField
                         fullWidth
                         margin="normal"
