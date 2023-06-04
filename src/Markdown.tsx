@@ -5,6 +5,9 @@ import rehypeHighlight from "rehype-highlight";
 import remarkToc from "remark-toc";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 export default function Markdown({source, toc, prefix}: { source: string, toc: string, prefix?: string }) {
     return (
@@ -17,6 +20,7 @@ export default function Markdown({source, toc, prefix}: { source: string, toc: s
                     heading: toc,
                     prefix,
                 }],
+                remarkMath,
             ]}
             remarkRehypeOptions={{
                 clobberPrefix: prefix,
@@ -32,6 +36,7 @@ export default function Markdown({source, toc, prefix}: { source: string, toc: s
                     tree.children.forEach(handler)
                     return tree
                 },
+                rehypeKatex,
                 rehypeRaw,
                 [rehypeSlug, {
                     prefix,

@@ -17,6 +17,13 @@ const a = '这是一段js代码'
 console.log(a)
 ```
 
+Lift($L$) can be determined by Lift Coefficient ($C_L$) like the following
+equation.
+
+$$
+L = \frac{1}{2} \rho v^2 S C_L
+$$
+
 <blockquote>
 
 html blockquote
