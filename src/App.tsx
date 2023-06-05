@@ -11,7 +11,7 @@ export default function App() {
                     mode: prefersDarkMode ? 'dark' : 'light',
                 },
                 typography: {
-                    fontSize: 12
+                    fontSize: 12,
                 },
             }),
         [prefersDarkMode],

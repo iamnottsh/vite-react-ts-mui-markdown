@@ -22,20 +22,7 @@ export default function Markdown({source, prefix = ''}: { source: string, prefix
                 }],
                 remarkMath,
             ]}
-            remarkRehypeOptions={{
-                clobberPrefix: prefix,
-                footnoteLabel: '脚注',
-                footnoteBackLabel: '回到正文',
-            }}
             rehypePlugins={[
-                () => tree => {
-                    const handler = (node: any) => {
-                        if (node.properties?.id === 'footnote-label') delete node.properties.id
-                        node.children?.forEach(handler)
-                    }
-                    tree.children.forEach(handler)
-                    return tree
-                },
                 rehypeKatex,
                 rehypeRaw,
                 [rehypeSlug, {
